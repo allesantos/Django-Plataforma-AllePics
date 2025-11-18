@@ -699,7 +699,6 @@ Desenvolvido com ❤️ por **Alexandre Santos**
 - 📧 Email: alledesenvolvimento@gmail.com
 - 💼 LinkedIn: [linkedin.com/in/alle-carlos-alexandre](https://www.linkedin.com/in/alle-carlos-alexandre)
 - 🐙 GitHub: [github.com/allesantos](https://github.com/allesantos)
-- 🌐 Portfolio: [em breve]
 
 ---
 
@@ -753,5 +752,5 @@ Desenvolvido com ❤️ por **Alexandre Santos**
 
 ---
 
-**Última atualização:** Novembro 2024  
+**Última atualização:** Novembro 2025  
 **Versão:** 1.0.0-alpha
