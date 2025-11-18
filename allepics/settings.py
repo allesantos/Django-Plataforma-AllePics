@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     # Apps do projeto
     'apps.users', 
     'apps.core',
+    'apps.photos',
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# ============================================
+# CONFIGURAÇÕES DE ARQUIVOS MEDIA
+# ============================================
+
+# Pillow (biblioteca de imagens)
+# Necessário para ImageField funcionar
+
+# Pasta onde os arquivos serão salvos
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# URL para acessar os arquivos
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
