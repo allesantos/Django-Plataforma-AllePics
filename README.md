@@ -6,6 +6,7 @@ Uma mini rede social de fotos moderna desenvolvida com Django, PostgreSQL, Redis
 
 ## 📌 Índice
 - [📜 Descrição](#-descrição)
+- [📸 Screenshots](#-screenshots)
 - [🚀 Recursos](#-recursos)
 - [🛠 Tecnologias](#-tecnologias)
 - [✅ Pré-requisitos](#-pré-requisitos)
@@ -36,6 +37,43 @@ Demonstrar conhecimentos em:
 - Banco de dados relacional com PostgreSQL
 - Autenticação e autorização seguras
 - UI/UX responsivo com Bootstrap 5
+
+---
+
+## 📸 Screenshots do Sistema 
+Abaixo estão algumas telas principais da aplicação, demonstrando o fluxo completo do usuário — desde o cadastro até a navegação pela galeria.
+
+📝 **1. Tela de Cadastro**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/1-cadastro.png" width="700">
+
+✅ **2. Tela de Confirmação de Cadastro**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/2-confirma%C3%A7%C3%A3o.png" width="700">
+
+🔐 **3. Tela de Login**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/3-login.png" width="700">
+
+📤 **4. Tela de Upload de Imagem**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/4-enviar_foto.png" width="700">
+
+🖼️ **5. Galeria de Imagens**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/5-galeria.png" width="700">
+
+📑 **6. Paginação da Galeria**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/6-pagina%C3%A7%C3%A3o.png" width="700">
+
+🔍 **7. Detalhes de uma Imagem**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/7-detalhes.png" width="700">
+
+👤 **8. Perfil do Usuário**
+
+<img src="https://github.com/allesantos/allesantos/blob/main/imagens/Django-Plataforma-AllePics/8-ver_perfil.png" width="700">
 
 ---
 
