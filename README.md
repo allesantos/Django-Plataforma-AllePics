@@ -945,23 +945,6 @@ Desenvolvido com ❤️ por **Alexandre Santos**
 - [Redis](https://redis.io/) - Cache e message broker
 - [MinIO](https://min.io/) - Object storage
 
----
-
-## 📸 Screenshots
-
-> 📝 **Nota:** Screenshots serão adicionados em breve com as principais telas do sistema.
-
-Funcionalidades disponíveis para screenshot:
-- ✅ Página inicial
-- ✅ Cadastro e login
-- ✅ Perfil de usuário
-- ✅ Upload de fotos (com preview)
-- ✅ Galeria responsiva
-- ✅ Detalhes da foto
-- ✅ Modal de deleção
-- ✅ Django Admin
-
----
 
 **⭐ Se este projeto foi útil para você, deixe uma estrela no repositório!**
 
