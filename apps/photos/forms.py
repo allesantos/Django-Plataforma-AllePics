@@ -58,3 +58,31 @@ class PhotoUploadForm(forms.ModelForm):
                 )
         
         return image
+    
+class PhotoSearchForm(forms.Form):
+    """Formulário para buscar e filtrar fotos"""
+    
+    search = forms.CharField(
+        max_length=200,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '🔍 Buscar por título...',
+        })
+    )
+    
+    ORDER_CHOICES = [
+        ('', 'Ordenar por...'),
+        ('-uploaded_at', '📅 Mais recentes'),
+        ('uploaded_at', '📅 Mais antigas'),
+        ('title', '🔤 A → Z (título)'),
+        ('-title', '🔤 Z → A (título)'),
+    ]
+    
+    order = forms.ChoiceField(
+        choices=ORDER_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+        })
+    )

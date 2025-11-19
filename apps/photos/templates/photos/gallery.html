@@ -120,6 +120,106 @@
             </div>
         </div>
 
+
+        <!-- Estatísticas da Galeria -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h2 class="display-4 text-primary mb-0">{{ total_photos }}</h2>
+                <p class="text-muted mb-0">
+                    📸 Foto{{ total_photos|pluralize }} no total
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                {% if page_obj %}
+                <h2 class="display-4 text-success mb-0">{{ page_obj|length }}</h2>
+                <p class="text-muted mb-0">
+                    👁️ Nesta página
+                </p>
+                {% else %}
+                <h2 class="display-4 text-muted mb-0">0</h2>
+                <p class="text-muted mb-0">
+                    👁️ Nesta página
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                {% if page_obj.has_other_pages %}
+                <h2 class="display-4 text-info mb-0">{{ page_obj.paginator.num_pages }}</h2>
+                <p class="text-muted mb-0">
+                    📄 Página{{ page_obj.paginator.num_pages|pluralize }} totais
+                </p>
+                {% else %}
+                <h2 class="display-4 text-muted mb-0">1</h2>
+                <p class="text-muted mb-0">
+                    📄 Página única
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Formulário de Busca e Filtros -->
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form method="get" id="searchForm">
+            <div class="row g-3 align-items-end">
+                <!-- Campo de Busca -->
+                <div class="col-md-6">
+                    <label for="id_search" class="form-label fw-bold">
+                        🔍 Buscar Fotos
+                    </label>
+                    {{ form.search }}
+                </div>
+                
+                <!-- Filtro de Ordenação -->
+                <div class="col-md-4">
+                    <label for="id_order" class="form-label fw-bold">
+                        ⚙️ Ordenar
+                    </label>
+                    {{ form.order }}
+                </div>
+                
+                <!-- Botões -->
+                <div class="col-md-2">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            Aplicar
+                        </button>
+                        {% if search_query %}
+                        <a href="{% url 'photos:gallery' %}" class="btn btn-outline-secondary btn-sm">
+                            Limpar
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Informação dos Resultados -->
+            {% if search_query %}
+            <div class="mt-3">
+                <div class="alert alert-info mb-0">
+                    🔍 Resultados para: <strong>"{{ search_query }}"</strong>
+                    <span class="badge bg-primary ms-2">{{ total_photos }} foto{{ total_photos|pluralize }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
         {% if photos %}
             <!-- Grid de Fotos -->
             <div class="row g-4 mb-4">
@@ -212,92 +312,123 @@
             </div>
 
             <!-- Paginação -->
-            {% if photos.has_other_pages %}
-            <nav aria-label="Navegação da galeria">
-                <ul class="pagination justify-content-center">
-                    <!-- Página Anterior -->
-                    {% if photos.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1">
-                            <i class="bi bi-chevron-double-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ photos.previous_page_number }}">
-                            <i class="bi bi-chevron-left"></i>
-                        </a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">
-                            <i class="bi bi-chevron-double-left"></i>
-                        </span>
-                    </li>
-                    <li class="page-item disabled">
-                        <span class="page-link">
-                            <i class="bi bi-chevron-left"></i>
-                        </span>
-                    </li>
-                    {% endif %}
+{% if page_obj.has_other_pages %}
+<nav aria-label="Navegação da galeria">
+    <ul class="pagination justify-content-center">
+        <!-- Botão Anterior -->
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">
+                Primeira
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">
+                Anterior
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Primeira</span>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">Anterior</span>
+        </li>
+        {% endif %}
 
-                    <!-- Números das Páginas -->
-                    {% for num in photos.paginator.page_range %}
-                        {% if photos.number == num %}
-                        <li class="page-item active">
-                            <span class="page-link">{{ num }}</span>
-                        </li>
-                        {% elif num > photos.number|add:'-3' and num < photos.number|add:'3' %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
-
-                    <!-- Próxima Página -->
-                    {% if photos.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ photos.next_page_number }}">
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ photos.paginator.num_pages }}">
-                            <i class="bi bi-chevron-double-right"></i>
-                        </a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">
-                            <i class="bi bi-chevron-right"></i>
-                        </span>
-                    </li>
-                    <li class="page-item disabled">
-                        <span class="page-link">
-                            <i class="bi bi-chevron-double-right"></i>
-                        </span>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
+        <!-- Números das Páginas -->
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">
+                    {{ num }}
+                </a>
+            </li>
             {% endif %}
+        {% endfor %}
+
+        <!-- Botão Próximo -->
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">
+                Próxima
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">
+                Última
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Próxima</span>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">Última</span>
+        </li>
+        {% endif %}
+    </ul>
+    
+    <!-- Informação de Paginação -->
+    <div class="text-center text-muted mt-2">
+        <small>
+            Mostrando {{ start_index }}-{{ end_index }} de {{ total_photos }} foto{{ total_photos|pluralize }}
+        </small>
+    </div>
+</nav>
+{% endif %}
+                
 
         {% else %}
-            <!-- Galeria Vazia -->
-            <div class="empty-gallery">
-                <div class="text-center">
-                    <i class="bi bi-images text-muted" style="font-size: 5rem;"></i>
-                    <h3 class="mt-4">Sua galeria está vazia</h3>
-                    <p class="text-muted">
-                        Comece fazendo upload da sua primeira foto!
-                    </p>
-                    <a href="{% url 'photos:upload' %}" class="btn btn-primary btn-lg mt-3">
-                        <i class="bi bi-cloud-upload me-2"></i>
-                        Fazer Upload
-                    </a>
-                </div>
-            </div>
-        {% endif %}
+<!-- Estado Vazio -->
+<div class="text-center py-5">
+    <div class="mb-4">
+        <i class="bi bi-images" style="font-size: 5rem; color: #ddd;"></i>
     </div>
+    
+    {% if search_query %}
+    <!-- Quando busca não retorna resultados -->
+    <h3 class="text-muted mb-3">Nenhuma foto encontrada 😕</h3>
+    <p class="text-muted mb-4">
+        Não encontramos fotos com o termo "<strong>{{ search_query }}</strong>"
+    </p>
+    <div class="d-flex gap-2 justify-content-center flex-wrap">
+        <a href="{% url 'photos:gallery' %}" class="btn btn-outline-primary">
+            🔄 Ver todas as fotos
+        </a>
+        <a href="{% url 'photos:upload' %}" class="btn btn-primary">
+            📸 Fazer upload
+        </a>
+    </div>
+    {% else %}
+    <!-- Quando não há fotos cadastradas -->
+    <h3 class="text-muted mb-3">Sua galeria está vazia! 📸</h3>
+    <p class="text-muted mb-4">
+        Comece fazendo upload da sua primeira foto!
+    </p>
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h5 class="card-title">💡 Dicas para começar:</h5>
+            <ul class="text-start">
+                <li class="mb-2">📱 Tire uma foto ou escolha uma da galeria</li>
+                <li class="mb-2">🎨 Coloque um título criativo</li>
+                <li class="mb-2">📝 Adicione uma descrição (opcional)</li>
+                <li class="mb-2">✨ Compartilhe momentos especiais!</li>
+            </ul>
+            <a href="{% url 'photos:upload' %}" class="btn btn-primary mt-3">
+                📸 Fazer meu primeiro upload
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+    </div>
+
 
     <!-- Footer -->
     <footer class="bg-light mt-5 py-4">
@@ -310,5 +441,46 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Loading Overlay -->
+<div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-3 text-muted">Carregando fotos...</p>
+    </div>
+</div>
+
+<script>
+// Mostrar loading ao enviar formulário
+document.getElementById('searchForm').addEventListener('submit', function() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'flex';
+});
+
+// Esconder loading quando página carregar
+window.addEventListener('load', function() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'none';
+});
+
+// Mostrar loading ao clicar em paginação
+document.querySelectorAll('.pagination a').forEach(link => {
+    link.addEventListener('click', function() {
+        const overlay = document.getElementById('loadingOverlay');
+        overlay.style.display = 'flex';
+    });
+});
+
+// Auto-submit quando mudar ordenação
+const orderSelect = document.getElementById('id_order');
+if (orderSelect) {
+    orderSelect.addEventListener('change', function() {
+        document.getElementById('searchForm').submit();
+    });
+}
+</script>
+
 </body>
 </html>

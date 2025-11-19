@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .forms import PhotoUploadForm
+from .forms import PhotoUploadForm, PhotoSearchForm 
 from .models import Photo
+import os
 
 @login_required
 def upload_photo_view(request):
@@ -47,22 +48,43 @@ def upload_photo_view(request):
 @login_required
 def gallery_view(request):
     """
-    View para exibir galeria de fotos do usuário.
-    Com paginação de 12 fotos por página.
+    Galeria de fotos com busca e filtros.
+    Usa select_related para reduzir queries ao banco.
     """
-    # Buscar apenas fotos do usuário logado
-    photos_list = Photo.objects.filter(user=request.user)
+    # Pegar apenas as fotos do usuário logado (otimizado)
+    photos = Photo.objects.filter(user=request.user).select_related('user')
     
-    # Configurar paginação
-    paginator = Paginator(photos_list, 12)  # 12 fotos por página
+    # Criar instância do formulário com os dados GET
+    form = PhotoSearchForm(request.GET)
+    
+    # Aplicar busca se houver
+    search_query = request.GET.get('search', '').strip()
+    if search_query:
+        photos = photos.filter(title__icontains=search_query)
+    
+    # Aplicar ordenação se houver
+    order_by = request.GET.get('order', '-uploaded_at')
+    if order_by:
+        photos = photos.order_by(order_by)
+    
+    # Paginação (12 fotos por página)
+    paginator = Paginator(photos, 12)
     page_number = request.GET.get('page')
-    photos = paginator.get_page(page_number)
+    page_obj = paginator.get_page(page_number)
+    
+    # Calcular informações da paginação
+    start_index = (page_obj.number - 1) * paginator.per_page + 1
+    end_index = min(page_obj.number * paginator.per_page, paginator.count)
     
     context = {
-        'photos': photos,
-        'total_photos': photos_list.count()
+        'photos': page_obj.object_list,
+        'page_obj': page_obj,          
+        'total_photos': photos.count(), 
+        'form': form,                   
+        'search_query': search_query,   
+        'start_index': start_index,    
+        'end_index': end_index,        
     }
-    
     return render(request, 'photos/gallery.html', context)
 
 
