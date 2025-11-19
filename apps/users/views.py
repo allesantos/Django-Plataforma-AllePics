@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
@@ -70,6 +70,13 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     """
-    View de perfil do usuário (protegida).
+    View para exibir perfil do usuário.
     """
-    return render(request, 'users/profile.html')
+    # Contar fotos do usuário
+    total_photos = request.user.photos.count()
+    
+    context = {
+        'total_photos': total_photos
+    }
+    
+    return render(request, 'users/profile.html', context)
