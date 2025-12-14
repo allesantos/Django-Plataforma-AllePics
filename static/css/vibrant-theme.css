@@ -1,0 +1,812 @@
+/*
+============================================
+🎨 ALLEPICS - TEMA VIBRANTE (VERSÃO FINAL CONSOLIDADA)
+============================================
+Estrutura:
+1. Variáveis de Cores e Base (Modo Claro Padrão)
+2. Estilos do Modo Escuro (Variáveis e Sobrescritas)
+3. Estilos de Componentes (Modo Claro e Escuro)
+============================================
+*/
+
+/* ============================================
+   🌈 1. VARIÁVEIS DE CORES E BASE (MODO CLARO - PADRÃO)
+   ============================================ */
+:root {
+    /* Cores principais do gradiente */
+    --color-yellow: #feda75;
+    --color-orange: #fa7e1e;
+    --color-pink: #d62976;
+    --color-purple: #962fbf;
+    --color-blue: #4f5bd5;
+
+    /* Cores base (neutras) - INVERTIDAS */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-gray-dark: #262626;
+    --color-gray-medium: #8e8e8e;
+    --color-gray-light: #dbdbdb;
+    --color-gray-bg: #fafafa;
+
+    /* Gradiente principal e suave */
+    --gradient-main: linear-gradient(45deg, var(--color-yellow), var(--color-orange), var(--color-pink), var(--color-purple), var(--color-blue));
+    --gradient-soft: linear-gradient(135deg, rgba(254, 218, 117, 0.3), rgba(250, 126, 30, 0.3), rgba(214, 41, 118, 0.3));
+
+    /* Sombras */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+    --shadow-colored: 0 4px 12px rgba(214, 41, 118, 0.3);
+
+    /* Mapeamento de Cores BS5 para MODO CLARO */
+    --bs-body-bg: #ffffff; /* Fundo branco puro */
+    --bs-body-color: var(--color-black);
+    --bs-secondary-bg: #f8f9fa; /* Cards/seções com cinza mais claro e suave */
+    --bs-secondary-color: var(--color-gray-medium);
+    --bs-heading-color: var(--color-black);
+}
+
+/* ============================================
+   🌙 2. ESTILOS DO MODO ESCURO (DARK MODE)
+   ============================================ */
+
+/* A. VARIÁVEIS DE COR ESCURA (SOBRESCRITAS) */
+[data-bs-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #f8f9fa; 
+    --bs-secondary-bg: #1c1c1c; 
+    --bs-secondary-color: #b0b3b8; 
+    --bs-heading-color: #f8f9fa;
+    --bs-light-rgb: 33, 37, 41; 
+    
+    /* Cores neutras invertidas ou ajustadas */
+    --color-gray-dark: #f8f9fa;
+    --color-gray-light: rgba(255, 255, 255, 0.1);
+}
+
+/* B. REGRAS GLOBAIS DE COR NO DARK MODE (FORÇANDO CONTRA GRADIENTES/BS5) */
+
+/* Garante texto claro em todos os elementos básicos */
+[data-bs-theme="dark"] h1, [data-bs-theme="dark"] h2, [data-bs-theme="dark"] h3, 
+[data-bs-theme="dark"] h4, [data-bs-theme="dark"] h5, [data-bs-theme="dark"] h6, 
+[data-bs-theme="dark"] p, [data-bs-theme="dark"] span, [data-bs-theme="dark"] a, 
+[data-bs-theme="dark"] label, [data-bs-theme="dark"] small, [data-bs-theme="dark"] strong, 
+[data-bs-theme="dark"] .text-muted, [data-bs-theme="dark"] .text-gray-dark, 
+[data-bs-theme="dark"] i.bi,
+[data-bs-theme="dark"] .section-title,
+[data-bs-theme="dark"] .section-subtitle {
+    color: var(--bs-body-color) !important;
+    -webkit-text-fill-color: var(--bs-body-color) !important;
+    background-image: none !important;
+}
+
+/* Sobrescreve cinza secundário/médio */
+[data-bs-theme="dark"] .text-gray-medium,
+[data-bs-theme="dark"] .breadcrumb-item.active {
+    color: var(--bs-secondary-color) !important;
+}
+
+/* Ajuste de Cards/Breadcrumbs */
+[data-bs-theme="dark"] .card-body,
+[data-bs-theme="dark"] .card-header,
+[data-bs-theme="dark"] .card {
+    color: var(--bs-body-color) !important;
+    background-color: var(--bs-secondary-bg);
+    border-color: var(--color-gray-light);
+}
+[data-bs-theme="dark"] .breadcrumb-item a,
+[data-bs-theme="dark"] .breadcrumb-item+.breadcrumb-item::before {
+    color: var(--bs-body-color) !important;
+}
+
+/* 🔄 C. CORREÇÃO DOS BOTÕES (FUNDO ESCURO, TEXTO CLARO) - CONSOLIDADO */
+
+/* Aplica fundo escuro e texto claro a TODOS os botões no Dark Mode */
+[data-bs-theme="dark"] .btn,
+[data-bs-theme="dark"] .btn-primary,
+[data-bs-theme="dark"] .btn-secondary,
+[data-bs-theme="dark"] .btn-outline-primary,
+[data-bs-theme="dark"] .btn-outline-secondary,
+[data-bs-theme="dark"] .btn-outline-danger,
+[data-bs-theme="dark"] .btn-outline-success,
+[data-bs-theme="dark"] .btn-outline-warning,
+[data-bs-theme="dark"] .btn-outline-info {
+    background-color: #2d2d2d !important;
+    color: var(--color-white) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Hover dos botões normais no Dark Mode */
+[data-bs-theme="dark"] .btn:hover,
+[data-bs-theme="dark"] .btn-primary:hover,
+[data-bs-theme="dark"] .btn-secondary:hover,
+[data-bs-theme="dark"] .btn-outline-primary:hover,
+[data-bs-theme="dark"] .btn-outline-secondary:hover,
+[data-bs-theme="dark"] .btn-outline-danger:hover,
+[data-bs-theme="dark"] .btn-outline-success:hover,
+[data-bs-theme="dark"] .btn-outline-warning:hover,
+[data-bs-theme="dark"] .btn-outline-info:hover {
+    background-color: #3d3d3d !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: var(--color-white) !important;
+}
+
+/* Botão de Perigo (Sair) - Vermelho Escuro com borda rosa */
+[data-bs-theme="dark"] .btn-outline-danger {
+    background-color: #2d0a0a !important;
+    color: var(--color-pink) !important;
+    border: 2px solid var(--color-pink) !important;
+}
+
+[data-bs-theme="dark"] .btn-outline-danger:hover {
+    background-color: #3d1515 !important;
+    color: var(--color-white) !important;
+    border: 2px solid var(--color-pink) !important;
+}
+
+/* Botões de Ação nas Fotos - CORES INVERTIDAS */
+/* Botão de Visualizar (Olhinho) - Gradiente sem borda */
+[data-bs-theme="dark"] .btn-outline-primary {
+    background: var(--gradient-main) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Botão de Deletar (Lixeira) - Fundo levemente branco com ícone Branco */
+[data-bs-theme="dark"] .btn-group .btn-outline-danger {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: var(--color-white) !important;
+    border: 2px solid transparent !important;
+}
+
+[data-bs-theme="dark"] .btn-group .btn-outline-danger:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: var(--color-white) !important;
+    border: 2px solid transparent !important;
+}
+
+/* Formulários mantém fundo escuro */
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .user-actions-section input {
+    background-color: #2d2d2d !important;
+    color: var(--color-white) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Botão Primário Gradiente: Mantém o gradiente, garante texto branco */
+[data-bs-theme="dark"] .btn-gradient-primary {
+    background: var(--gradient-main) !important;
+    color: var(--color-white) !important;
+    border: none !important;
+}
+
+/* Hover do Botão Primário Gradiente */
+[data-bs-theme="dark"] .btn-gradient-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Botão Outline: Fundo Escuro com borda gradiente FINA */
+[data-bs-theme="dark"] .btn-gradient-outline {
+    background: #2d2d2d !important;
+    color: var(--color-white) !important;
+    border: 0.5px solid transparent !important;
+    background-image: linear-gradient(#2d2d2d, #2d2d2d), var(--gradient-main) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box, border-box !important;
+}
+
+/* Hover do Botão Outline: Aplica o gradiente completo */
+[data-bs-theme="dark"] .btn-gradient-outline:hover {
+    background: var(--gradient-main) !important;
+    color: var(--color-white) !important;
+    background-image: none !important;
+    border: 0.5px solid transparent !important;
+}
+
+/* Botão 'Sair' (Estilo específico) */
+[data-bs-theme="dark"] .btn-sair { 
+    background-color: #330000 !important;
+    color: var(--color-pink) !important;
+    border: 1px solid var(--color-pink) !important;
+}
+
+/* Ajuste do placeholder no Dark Mode */
+[data-bs-theme="dark"] input::placeholder,
+[data-bs-theme="dark"] textarea::placeholder {
+    color: var(--color-gray-medium) !important;
+}
+
+/* Ajuste de Navbar e Footer no Dark Mode */
+[data-bs-theme="dark"] .navbar-vibrant,
+[data-bs-theme="dark"] .footer-vibrant {
+    background: var(--bs-secondary-bg) !important;
+    border-bottom: none !important;
+}
+
+/* Barra gradiente inferior na Navbar (Dark Mode) */
+[data-bs-theme="dark"] .navbar-vibrant {
+    border-bottom: 3px solid transparent !important;
+    border-image: var(--gradient-main) 1 !important;
+}
+
+[data-bs-theme="dark"] .navbar-vibrant .nav-link,
+[data-bs-theme="dark"] .navbar-vibrant .navbar-brand {
+    color: var(--bs-body-color) !important;
+    -webkit-text-fill-color: var(--bs-body-color) !important;
+}
+[data-bs-theme="dark"] .footer-vibrant a {
+    color: var(--bs-body-color) !important;
+    background-image: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: var(--bs-body-color) !important;
+}
+
+/* Breadcrumb com gradiente no Dark Mode */
+[data-bs-theme="dark"] .breadcrumb-item a {
+    background: var(--gradient-main) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+[data-bs-theme="dark"] .breadcrumb-item a:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+/* ------------------------------------------- */
+/* 🌙 D. CORREÇÃO DE IMAGENS E ILUSTRAÇÕES (HOME) */
+/* ------------------------------------------- */
+
+/* Sobrescreve a imagem hero no Dark Mode */
+/* Esta regra garante que a ilustração branca/clara seja trocada pela escura. */
+[data-bs-theme="dark"] img[src*="hero-viewer-azul.svg"] {
+    /* Certifique-se de que o caminho para o seu arquivo dark SVG está correto */
+    content: url('/static/images/hero-viewer-dark.svg'); 
+}
+
+/* ============================================
+   3. ESTILOS DE COMPONENTES (MODO CLARO E ESCURO)
+   ============================================ */
+
+/* Aplicar as variáveis de cor para o corpo do site */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+/* ------------------------------------------- */
+/* ☀️ Estilos de Texto e Links no Modo Claro */
+/* ------------------------------------------- */
+.section-title, .section-subtitle, .lead {
+    color: var(--bs-body-color) !important;
+    -webkit-text-fill-color: var(--bs-body-color) !important;
+    background-image: none !important;
+}
+.col-md-4 p, .text-muted {
+    color: var(--color-gray-dark) !important;
+}
+
+/* Estilo para links do breadcrumb */
+.breadcrumb-item a {
+    color: var(--color-blue);
+    text-decoration: none;
+}
+.breadcrumb-item a:hover {
+    color: var(--color-purple);
+    text-decoration: underline;
+}
+.breadcrumb-item.active {
+    color: var(--color-gray-medium);
+}
+
+/* Estilo para Itens do Dropdown do Perfil */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    color: transparent !important;
+    background: linear-gradient(to right, #ff9800, #ff4081, #9c27b0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.dropdown-menu .dropdown-item:hover i,
+.dropdown-menu .dropdown-item:focus i {
+    color: transparent !important;
+}
+.dropdown-menu .dropdown-item:active {
+    background-color: transparent !important;
+}
+
+/* ============================================
+   🎨 NAVBAR COM GRADIENTE
+   ============================================ */
+.navbar-vibrant {
+    background: var(--gradient-main) !important;
+    border: none;
+    box-shadow: var(--shadow-md);
+}
+.navbar-vibrant .navbar-brand {
+    color: var(--color-white) !important;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+.navbar-vibrant .navbar-brand:hover {
+    transform: scale(1.05);
+}
+.navbar-vibrant .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.navbar-vibrant .nav-link:hover {
+    color: var(--color-white) !important;
+    transform: translateY(-2px);
+}
+.navbar-vibrant .dropdown-menu {
+    border: none;
+    box-shadow: var(--shadow-lg);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ============================================
+   🔘 BOTÕES COM GRADIENTE
+   ============================================ */
+.btn-gradient-primary {
+    background: var(--gradient-main);
+    border: none;
+    color: var(--color-white);
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-colored);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.btn-gradient-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(214, 41, 118, 0.4);
+    color: var(--color-white);
+    text-decoration: none;
+}
+.btn-gradient-primary:active {
+    transform: translateY(0);
+}
+/* Botão com borda gradiente */
+.btn-gradient-outline {
+    background: var(--color-white);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    color: var(--color-pink);
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+.btn-gradient-outline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    padding: 2px;
+    background: var(--gradient-main);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+.btn-gradient-outline:hover {
+    background: var(--gradient-main);
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   🎴 CARDS MODERNOS
+   ============================================ */
+.card-vibrant {
+    border: none !important;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: var(--bs-secondary-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+.card-vibrant:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+/* Card com borda gradiente */
+.card-gradient-border {
+    position: relative;
+    border: none;
+    border-radius: 12px;
+    background: var(--bs-secondary-bg);
+    padding: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+.card-gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 2px;
+    background: var(--gradient-main);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* Cards padrão do Bootstrap também ficam com fundo cinza e sombras suaves */
+.card {
+    background-color: var(--bs-secondary-bg) !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-body {
+    background-color: var(--bs-secondary-bg);
+}
+
+/* Remove bordas de cards de fotos especificamente */
+.photo-card-vibrant {
+    border: none !important;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: var(--bs-secondary-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.photo-card-vibrant:hover {
+    box-shadow: 0 8px 20px rgba(214, 41, 118, 0.15) !important;
+    transform: translateY(-8px);
+}
+
+/* Garante sombras no modo claro */
+[data-bs-theme="light"] .card,
+[data-bs-theme="light"] .card-vibrant,
+[data-bs-theme="light"] .photo-card-vibrant {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-bs-theme="light"] .card:hover,
+[data-bs-theme="light"] .card-vibrant:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-bs-theme="light"] .photo-card-vibrant:hover {
+    box-shadow: 0 8px 20px rgba(214, 41, 118, 0.15) !important;
+}
+
+
+/* ============================================
+   📊 CORREÇÃO: MINI-CARD PARA COLUNAS ESTREITAS (AJUSTE FINO)
+   ============================================ */
+.stat-card-min {
+    /* Padding e Borda Mínimos */
+    padding: 0.5rem 0.5rem !important; /* Padding vertical e horizontal ajustado (8px) */
+    border-radius: 8px !important;
+
+    /* Aumenta a largura para dar espaço ao texto */
+    width: 32% !important; 
+    
+    /* Garante que o item não se estique, mas use o d-flex para centralizar */
+    flex-shrink: 0 !important; 
+}
+
+/* O restante do CSS do stat-card-min (fundos coloridos) permanece o mesmo. */
+
+/* Exemplo (apenas para referência, não mude o que já estava):
+.stat-card-yellow.stat-card-min {
+    background: linear-gradient(135deg, rgba(254, 218, 117, 0.2), rgba(250, 126, 30, 0.1)) !important;
+    border-left: 4px solid var(--color-yellow) !important;
+}
+*/
+
+/* ============================================
+   🏷️ BADGES COLORIDOS
+   ============================================ */
+.badge-yellow {
+    background-color: var(--color-yellow);
+    color: var(--color-gray-dark);
+}
+.badge-orange {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+}
+.badge-pink {
+    background-color: var(--color-pink);
+    color: var(--color-white);
+}
+.badge-purple {
+    background-color: var(--color-purple);
+    color: var(--color-white);
+}
+.badge-blue {
+    background-color: var(--color-blue);
+    color: var(--color-white);
+}
+.badge-gradient {
+    background: var(--gradient-main);
+    color: var(--color-white);
+    font-weight: 600;
+}
+
+/* ============================================
+   ⚠️ ALERTS CUSTOMIZADOS
+   ============================================ */
+.alert-vibrant-info {
+    background: linear-gradient(135deg, rgba(79, 91, 213, 0.1), rgba(150, 47, 191, 0.1));
+    border-left: 4px solid var(--color-blue);
+    color: var(--color-gray-dark);
+}
+.alert-vibrant-success {
+    background: linear-gradient(135deg, rgba(254, 218, 117, 0.1), rgba(250, 126, 30, 0.1));
+    border-left: 4px solid var(--color-orange);
+    color: var(--color-gray-dark);
+}
+.alert-vibrant-warning {
+    background: linear-gradient(135deg, rgba(250, 126, 30, 0.1), rgba(214, 41, 118, 0.1));
+    border-left: 4px solid var(--color-pink);
+    color: var(--color-gray-dark);
+}
+
+/* ============================================
+   🦶 FOOTER COM GRADIENTE SUAVE
+   ============================================ */
+.footer-vibrant {
+    background: linear-gradient(180deg, var(--color-white), var(--color-gray-bg));
+    border-top: 3px solid transparent;
+    border-image: var(--gradient-main) 1;
+    padding: 2rem 0;
+}
+.footer-vibrant a {
+    color: var(--color-gray-dark);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.footer-vibrant a:hover {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   ✨ EFEITOS DE HOVER E ANIMAÇÕES
+   ============================================ */
+.hover-gradient {
+    transition: all 0.3s ease;
+}
+.hover-gradient:hover {
+    background: var(--gradient-soft);
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+.icon-pulse:hover {
+    animation: pulse 1s infinite;
+}
+/* Gradiente no texto */
+.text-gradient {
+    background: var(--gradient-main) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-weight: 700;
+}
+
+/* Força o gradiente no modo escuro também */
+[data-bs-theme="dark"] .text-gradient {
+    background: var(--gradient-main) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Gradiente no ícone dentro do texto gradiente */
+.text-gradient i,
+.text-gradient .bi,
+i.text-gradient,
+.bi.text-gradient {
+    background: var(--gradient-main) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+[data-bs-theme="dark"] .text-gradient i,
+[data-bs-theme="dark"] .text-gradient .bi,
+[data-bs-theme="dark"] i.text-gradient,
+[data-bs-theme="dark"] .bi.text-gradient {
+    background: var(--gradient-main) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ============================================
+   📷 CARDS DE FOTOS
+   ============================================ */
+.photo-card-vibrant {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--color-gray-light);
+    transition: all 0.3s ease;
+    background: var(--color-white);
+}
+.photo-card-vibrant:hover {
+    border-color: var(--color-pink);
+    box-shadow: var(--shadow-colored);
+    transform: translateY(-8px);
+}
+.photo-card-vibrant img {
+    transition: transform 0.3s ease;
+}
+.photo-card-vibrant:hover img {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   📊 CARDS DE ESTATÍSTICAS
+   ============================================ */
+.stat-card-yellow {
+    background: linear-gradient(135deg, rgba(254, 218, 117, 0.2), rgba(250, 126, 30, 0.1));
+    border-left: 4px solid var(--color-yellow);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.stat-card-yellow:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+.stat-card-pink {
+    background: linear-gradient(135deg, rgba(214, 41, 118, 0.2), rgba(150, 47, 191, 0.1));
+    border-left: 4px solid var(--color-pink);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.stat-card-pink:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+.stat-card-blue {
+    background: linear-gradient(135deg, rgba(79, 91, 213, 0.2), rgba(150, 47, 191, 0.1));
+    border-left: 4px solid var(--color-blue);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.stat-card-blue:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   📄 PAGINAÇÃO E FORMULÁRIOS
+   ============================================ */
+.pagination .page-item .page-link {
+    color: var(--color-gray-dark);
+    border-radius: 6px;
+    margin: 0 2px;
+    border: 1px solid var(--color-gray-light);
+    transition: all 0.3s ease;
+}
+.pagination .page-item .page-link:hover {
+    color: var(--color-pink);
+    border-color: var(--color-pink);
+}
+.pagination .page-item.active .page-link {
+    background: var(--gradient-main);
+    color: var(--color-white);
+    border: none;
+    box-shadow: var(--shadow-colored);
+}
+.pagination .page-item.disabled .page-link {
+    color: var(--color-gray-medium);
+}
+
+/* Estilos de Formulário */
+input::placeholder, textarea::placeholder {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #999;
+}
+.form-control {
+    font-size: 0.875rem;
+}
+.form-control::file-selector-button {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+.form-control[type="file"] {
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   🎯 UTILITÁRIOS
+   ============================================ */
+
+/* Backgrounds */
+.bg-gradient-main {
+    background: var(--gradient-main);
+}
+.bg-gradient-soft {
+    background: var(--gradient-soft);
+}
+/* Bordas */
+.border-gradient {
+    border: 2px solid transparent;
+    border-image: var(--gradient-main) 1;
+}
+/* Borda com gradiente para elementos circulares */
+.border-gradient-circle {
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(white, white) padding-box, var(--gradient-main) border-box;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+/* Sombras */
+.shadow-vibrant {
+    box-shadow: var(--shadow-colored);
+}
+/* Texto */
+.text-gray-dark {
+    color: var(--color-gray-dark);
+}
+.text-gray-medium {
+    color: var(--color-gray-medium);
+}
+/* Links com gradiente */
+.link-gradient {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.link-gradient:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   🔄 LOADING E SPINNERS
+   ============================================ */
+.spinner-gradient {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--color-pink);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

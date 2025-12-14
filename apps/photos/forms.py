@@ -67,16 +67,16 @@ class PhotoSearchForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': '🔍 Buscar por título...',
+            'placeholder': 'Buscar por título...',
         })
     )
     
     ORDER_CHOICES = [
         ('', 'Ordenar por...'),
-        ('-uploaded_at', '📅 Mais recentes'),
-        ('uploaded_at', '📅 Mais antigas'),
-        ('title', '🔤 A → Z (título)'),
-        ('-title', '🔤 Z → A (título)'),
+        ('-uploaded_at', 'Mais recentes'),
+        ('uploaded_at', 'Mais antigas'),
+        ('title', 'A → Z (título)'),
+        ('-title', 'Z → A (título)'),
     ]
     
     order = forms.ChoiceField(

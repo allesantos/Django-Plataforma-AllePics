@@ -1,0 +1,180 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load form_tags %} {% block title %}Editar Foto de Perfil - AllePics{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb small">
+    <li class="breadcrumb-item">
+      <a href="{% url 'core:home' %}">Início</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'users:profile' %}">Perfil</a>
+    </li>
+    <li class="breadcrumb-item active">Editar Foto</li>
+  </ol>
+</nav>
+
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4 fw-semibold text-gradient">
+          <i class="bi bi-camera-fill me-2"></i> Editar Foto de Perfil
+        </h2>
+        <!-- Preview da Foto Atual -->
+        <div class="text-center mb-4">
+          <div class="position-relative d-inline-block">
+            {% if user.profile_picture %}
+            <img
+              src="{{ user.profile_picture.url }}"
+              alt="Foto atual"
+              class="rounded-circle border-gradient-circle"
+              style="width: 150px; height: 150px; object-fit: cover"
+              id="currentPhoto"
+            />
+            {% else %}
+            <div
+              class="rounded-circle bg-light border-gradient-circle d-flex align-items-center justify-content-center"
+              style="width: 150px; height: 150px"
+              id="currentPhoto"
+            >
+              <i
+                class="bi bi-person-circle text-muted"
+                style="font-size: 100px"
+              ></i>
+            </div>
+            {% endif %}
+          </div>
+          <p class="text-muted mt-2 mb-0"><small>Foto atual</small></p>
+        </div>
+
+        <!-- Preview da Nova Foto -->
+        <div class="text-center mb-4" id="previewSection" style="display: none">
+          <p class="text-success mb-2">
+            <strong><i class="bi bi-eye-fill me-2"></i> Preview da nova foto:</strong>
+          </p>
+          <img
+            id="photoPreview"
+            src="#"
+            alt="Preview"
+            class="rounded-circle border border-3 border-success"
+            style="width: 150px; height: 150px; object-fit: cover"
+          />
+        </div>
+
+        <!-- Formulário -->
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-4">
+            {{ form.profile_picture.label_tag|add_label_class:"mb-2 fw-semibold small"|safe }}
+            <input
+              type="file"
+              name="profile_picture"
+              id="profilePictureInput"
+              class="form-control"
+            />
+            <div class="form-text mt-2 mb-2 fw-semibold small">
+              <i class="bi bi-file-earmark-text me-1"></i> Formatos aceitos: JPG, JPEG, PNG (máx 2MB)
+            </div>
+            {% if form.profile_picture.errors %}
+            <div class="text-danger mt-2">
+              {{ form.profile_picture.errors }}
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="d-grid gap-3">
+            <button type="submit" class="btn btn-gradient-primary">
+              <i class="bi bi-save-fill me-2"></i> Salvar Nova Foto
+            </button>
+            <a
+              href="{% url 'users:profile' %}"
+              class="btn btn-outline-secondary" >
+              <i class="bi bi-x-lg me-2"></i> Cancelar</a
+            >
+          </div>
+        </form>
+
+        <!-- Remover Foto -->
+        {% if user.profile_picture %}
+        <div class="mt-4 text-center">
+          <p class="text-muted mb-2"><small class="fw-semibold">Ou você pode:</small></p>
+          <form method="post" action="#" style="display: inline">
+            {% csrf_token %}
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#removePhotoModal"
+            >
+              <i class="bi bi-trash-fill me-2"></i> Remover foto atual
+            </button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmação de Remoção -->
+<div class="modal fade" id="removePhotoModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i> Remover Foto de Perfil</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Tem certeza que deseja remover sua foto de perfil?</p>
+        <p class="text-muted mb-0">
+          <small>Você voltará a ter a foto padrão.</small>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <form
+          method="post"
+          action="{% url 'users:remove_profile_picture' %}"
+          style="display: inline"
+        >
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Sim, remover</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  // Preview da foto antes de enviar
+  const profileInput = document.getElementById("profilePictureInput");
+  if (profileInput) {
+    profileInput.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const previewSection = document.getElementById("previewSection");
+          const preview = document.getElementById("photoPreview");
+          preview.src = e.target.result;
+          previewSection.style.display = "block";
+          previewSection.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+</script>
+{% endblock %}

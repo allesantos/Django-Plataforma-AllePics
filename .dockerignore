@@ -1,14 +1,14 @@
 # ==========================================
 # Python
 # ==========================================
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
 venv/
 env/
 ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
 
 # ==========================================
 # Django
@@ -16,11 +16,10 @@ ENV/
 *.log
 db.sqlite3
 db.sqlite3-journal
-media/
 staticfiles/
 
 # ==========================================
-# Variáveis de Ambiente (IMPORTANTE!)
+# Arquivos de Ambiente (vão via .env)
 # ==========================================
 .env
 .env.local
@@ -28,9 +27,11 @@ staticfiles/
 .env.*.local
 
 # ==========================================
-# Arquivos Locais/Scripts
+# Git
 # ==========================================
-iniciar.bat
+.git/
+.gitignore
+.gitattributes
 
 # ==========================================
 # IDEs
@@ -42,25 +43,26 @@ iniciar.bat
 *~
 
 # ==========================================
-# Sistema Operacional
-# ==========================================
-.DS_Store
-Thumbs.db
-
-# ==========================================
 # Docker
 # ==========================================
-docker-compose.override.yml
+Dockerfile
+docker-compose*.yml
+.dockerignore
 
 # ==========================================
-# Testes
+# Documentação
 # ==========================================
-.coverage
-htmlcov/
-.pytest_cache/
+README.md
+*.md
+docs/
 
 # ==========================================
-# Backup Files (NUNCA COMMITAR!)
+# Media Files (vão via volume/SCP)
+# ==========================================
+media/
+
+# ==========================================
+# Backup Files
 # ==========================================
 backup*.sql
 backup*.sql.gz
@@ -68,7 +70,22 @@ backup*.sql.gz
 *.tmp
 
 # ==========================================
-# Outros
+# Scripts Locais
 # ==========================================
-*.bak
-*.tmp
+iniciar.bat
+export_data.sh
+import_data.sh
+
+# ==========================================
+# Sistema Operacional
+# ==========================================
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Testes
+# ==========================================
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
