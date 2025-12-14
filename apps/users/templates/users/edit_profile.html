@@ -1,0 +1,98 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load form_tags %} 
+ 
+{% block title %}Editar Informações - AllePics{% endblock %} 
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'users:profile' %}">Perfil</a></li>
+            <li class="breadcrumb-item active">Editar Informações</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-5 fw-semibold text-gradient">
+                        <i class="bi bi-pencil-fill me-2"></i> Editar Informações Pessoais
+                    </h2>
+
+                    <!-- Foto Atual -->
+                    <div class="text-center mb-5">
+                        {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" 
+                             alt="Foto de perfil"
+                             class="rounded-circle border-gradient-circle"
+                             style="width: 100px; height: 100px; object-fit: cover;">
+                        {% else %}
+                        <div class="rounded-circle bg-gradient-main text-white d-flex align-items-center justify-content-center mx-auto"
+                             style="width: 100px; height: 100px;">
+                            <i class="bi bi-person-circle" style="font-size: 60px;"></i>
+                        </div>
+                        {% endif %}
+                        <div class="mt-2">
+                            <a href="{% url 'users:edit_profile_picture' %}" class="btn btn-sm btn-gradient-outline">
+                                <i class="bi bi-camera-fill me-2"></i> Alterar Foto
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Informação do Username -->
+                    <div class="alert alert-info small" role="alert">
+                        <strong class="fw-semibold">Informação:</strong> Seu nome de usuário é <strong>{{ user.username }}</strong> e não pode ser alterado por questões de segurança.
+                    </div>
+
+                    <!-- Formulário -->
+                    <form method="post">
+    {% csrf_token %}
+    
+    <div class="mb-4">
+       {{ form.first_name.label_tag|add_label_class:"mb-2 fw-semibold small"|safe }} {{ form.first_name }}
+        {% if form.first_name.errors %}
+        <div class="text-danger mt-2">
+            {{ form.first_name.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        {{ form.last_name.label_tag|add_label_class:"mb-2 fw-semibold small"|safe }} {{ form.last_name }}
+        {% if form.last_name.errors %}
+        <div class="text-danger mt-2">
+            {{ form.last_name.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="mb-4"> {{ form.email.label_tag|add_label_class:"mb-2 fw-semibold small"|safe }} {{ form.email }}
+        
+        <div class="form-text mt-2 fw-semibold small"> <i class="bi bi-exclamation-triangle-fill me-1"></i> Certifique-se de usar um email válido.
+        </div>
+        {% if form.email.errors %}
+        <div class="text-danger mt-2">
+            {{ form.email.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="d-grid gap-3">
+    <button type="submit" class="btn btn-gradient-primary"> 
+        <i class="bi bi-save-fill me-2"></i> Salvar Alterações
+    </button>
+    <a href="{% url 'users:profile' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-x-lg me-2"></i> Cancelar
+    </a>
+</div>
+</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

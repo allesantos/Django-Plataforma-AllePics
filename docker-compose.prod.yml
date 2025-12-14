@@ -1,0 +1,115 @@
+# ==========================================
+# AllePics - Docker Compose para Produção
+# Docker Swarm Compatible
+# ==========================================
+
+version: '3.8'
+
+services:
+  # ==========================================
+  # PostgreSQL - Banco de Dados
+  # ==========================================
+  allepics_db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - allepics_postgres_data:/var/lib/postgresql/data
+    networks:
+      - aiautomate
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # AllePics - Aplicação Django
+  # ==========================================
+  allepics:
+    image: allepics-app:latest
+    env_file:
+      - .env
+    volumes:
+      - allepics_media:/app/media
+      - allepics_static:/app/staticfiles
+      - allepics_logs:/app/logs
+    networks:
+      - aiautomate
+    depends_on:
+      - allepics_db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+      labels:
+        # Traefik - Habilitar
+        - "traefik.enable=true"
+        
+        # Traefik - Rede
+        - "traefik.docker.network=aiautomate"
+        
+        # Traefik - HTTP Router
+        - "traefik.http.routers.allepics.rule=Host(`allepics.alleart.com.br`)"
+        - "traefik.http.routers.allepics.entrypoints=websecure"
+        - "traefik.http.routers.allepics.tls=true"
+        - "traefik.http.routers.allepics.tls.certresolver=letsencrypt"
+        
+        # Traefik - Service
+        - "traefik.http.services.allepics.loadbalancer.server.port=8000"
+        
+        # Traefik - Redirect HTTP -> HTTPS
+        - "traefik.http.routers.allepics-http.rule=Host(`allepics.alleart.com.br`)"
+        - "traefik.http.routers.allepics-http.entrypoints=web"
+        - "traefik.http.routers.allepics-http.middlewares=redirect-to-https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# ==========================================
+# Volumes - Persistência de Dados
+# ==========================================
+volumes:
+  allepics_postgres_data:
+    driver: local
+  allepics_media:
+    driver: local
+  allepics_static:
+    driver: local
+  allepics_logs:
+    driver: local
+
+# ==========================================
+# Networks - Rede Compartilhada com Traefik
+# ==========================================
+networks:
+  aiautomate:
+    external: true

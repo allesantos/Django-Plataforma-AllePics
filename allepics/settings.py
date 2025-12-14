@@ -45,7 +45,7 @@ ROOT_URLCONF = 'allepics.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,6 +109,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    # Isso diz ao Django onde procurar a pasta 'static' durante o desenvolvimento
+    BASE_DIR / 'static', 
+]
 
 # ============================================
 # CONFIGURAÇÕES DE ARQUIVOS MEDIA
@@ -139,3 +143,13 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_REDIRECT_URL = 'core:home'
+
+# ==================================================
+# CONFIGURAÇÕES DO DEBUG TOOLBAR (DESABILITAR)
+# ==================================================
+
+DEBUG_TOOLBAR_CONFIG = {
+    # Define uma função de retorno (callback) que sempre retorna False.
+    # Isso impede que o toolbar seja exibido, ignorando DEBUG=True e INTERNAL_IPS.
+    "SHOW_TOOLBAR_CALLBACK": lambda request: False,
+}
